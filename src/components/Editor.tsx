@@ -1,17 +1,19 @@
-import { useCallback, useState } from "react"
+import { useState } from "react"
 import CodeMirror from '@uiw/react-codemirror';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { xcodeLight } from "@uiw/codemirror-theme-xcode";
 import Markdown from "marked-react";
 
-export default function Editor({id}:{id:string}) {
-  const [tab, setTab] = useState("write")
-  const [content, setContent] = useState("");
+interface EditorProps {
+  id? : string,
+  value? : string,
+  onChange : (value:string) => void
+}
 
-  const onChange = useCallback((val:string) => {
-    setContent(val);
-  },[]);
+export default function Editor(props : EditorProps) {
+  const {id = "", value = "", onChange} = props;
+  const [tab, setTab] = useState("write")
 
   return <div id={id}>
     <div className="bg-gray-50 border border-b-0 border-gray-300 top-0 left-0 right-0 block rounded-t-md">
@@ -29,7 +31,7 @@ export default function Editor({id}:{id:string}) {
     <div className="w-full h-full prose max-w-none min-h-auto prose-indigo leading-6 rounded-b-md shadow-sm border border-gray-300 bg-white overflow-y-auto">
       {tab == "write" && 
         <CodeMirror
-          value={content}
+          value={value}
           onChange={onChange}
           height="500px"
           theme={xcodeLight}
@@ -38,9 +40,10 @@ export default function Editor({id}:{id:string}) {
       }
       {tab == "preview" && 
         <div className="p-4">
-          <Markdown>{content}</Markdown>
+          <Markdown>{value}</Markdown>
         </div>
       }
     </div>
   </div>;
-}
+};
+

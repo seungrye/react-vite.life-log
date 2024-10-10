@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Editor from "./Editor";
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -10,17 +11,24 @@ interface SubmitFormElement extends HTMLFormElement {
   readonly elements: FormElements
 }
 
+interface SubmitFormProps {
+  onSubmit : (value: {title:string, category:string, date:Date | null, content:string}) => void,
+  editorDefaultValue? : string // to use default value
+}
 
-export default function SubmitForm({onSubmit}:{onSubmit:({title, category, date, description}:{title:string, category:string, date:Date | null, description:string})=>void}) {
+export default function SubmitForm(props : SubmitFormProps) {
+  const {onSubmit, editorDefaultValue = ""} = props;
+  const [content, setContent] = useState(editorDefaultValue);
+
   return <form onSubmit={(event:React.FormEvent<SubmitFormElement>) => {
     event.preventDefault();
-    const elements = event.currentTarget.elements;
+    const {title, category, date} = event.currentTarget.elements;
 
     onSubmit({
-      title: elements.title.value,
-      category: elements.category.value,
-      date: elements.date.valueAsDate,
-      description: "TODO: WIP"
+      title: title.value,
+      category: category.value,
+      date: date.valueAsDate,
+      content: content
     });
   }}>
     <div className="grid gap-4 sm:grid-cols-4 sm:gap-6">
@@ -46,8 +54,8 @@ export default function SubmitForm({onSubmit}:{onSubmit:({title, category, date,
         />
       </div>
       <div className="sm:col-span-4">
-        <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900">Description</label>
-        <Editor id="description"/>
+        <label htmlFor="content" className="block mb-2 text-sm font-medium text-gray-900">Content</label>
+        <Editor id="content" value={content} onChange={setContent}/>
       </div>
     </div>
     <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 hover:bg-blue-800">
