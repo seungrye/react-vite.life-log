@@ -5,6 +5,7 @@ import Profile from './pages/Profile';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import PostEditor from './pages/PostEditor';
+import PostDetail from './pages/PostDetail';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,9 @@ const router = createBrowserRouter([
       },
       { path: "edit",
         element: <PostEditor/>
+      },
+      { path: "detail",
+        element: <PostDetail/>
       }
     ]
   },
