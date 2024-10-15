@@ -8,7 +8,13 @@ interface LoginFormElement extends HTMLFormElement {
   readonly elements: FormElements
 }
 
-export default function Login({ onSubmit }: { onSubmit: ({ email, password, rememberMe }: { email: string, password: string, rememberMe: boolean }) => void }) {
+interface LoginProps {
+  onSubmit: (value: { email: string, password: string, rememberMe: boolean }) => void,
+}
+
+export default function Login(props: LoginProps) {
+  const { onSubmit } = props;
+
   return <form className="max-w-sm mx-auto" onSubmit={(event: React.FormEvent<LoginFormElement>) => {
     event.preventDefault();
     const elements = event.currentTarget.elements;

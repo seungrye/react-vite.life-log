@@ -6,6 +6,10 @@ import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import PostEditor from './pages/PostEditor';
 import PostDetail from './pages/PostDetail';
+import Archived from './pages/Archived';
+import Category from './pages/Category';
+import SearchResult from './pages/SearchResult';
+import Tag from './pages/Tag';
 
 const router = createBrowserRouter([
   {
@@ -27,6 +31,22 @@ const router = createBrowserRouter([
       {
         path: "detail",
         element: <PostDetail />
+      },
+      {
+        path: "archived",
+        element: <Archived />
+      },
+      {
+        path: "category",
+        element: <Category />
+      },
+      {
+        path: "search",
+        element: <SearchResult />
+      },
+      {
+        path: "tag",
+        element: <Tag />
       }
     ]
   },
