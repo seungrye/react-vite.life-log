@@ -5,7 +5,7 @@ export default function PostDetail() {
         <header className="mb-4 lg:mb-6 not-format">
           <address className="flex items-center mb-6 not-italic">
             <div className="inline-flex items-center mr-3 text-sm text-gray-900">
-              <img className="mr-4 w-16 h-16 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="Jese Leos"/>
+              <img className="mr-4 w-16 h-16 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="Jese Leos" />
               <div>
                 <a href="#" rel="author" className="text-xl font-bold text-gray-900">Jese Leos</a>
                 <p className="text-base text-gray-500">Graphic Designer, educator & CEO Flowbite</p>
@@ -81,7 +81,7 @@ export default function PostDetail() {
           <li>Low contrast between thick and thin strokes</li>
           <li>Diagonal stress in the strokes</li>
           <li>Slanted serifs on lower-case ascenders</li>
-        </ul><img src="https://flowbite.s3.amazonaws.com/typography-plugin/typography-image-2.png" alt=""/>
+        </ul><img src="https://flowbite.s3.amazonaws.com/typography-plugin/typography-image-2.png" alt="" />
         <ol>
           <li>Low contrast between thick and thin strokes</li>
           <li>Diagonal stress in the strokes</li>
@@ -97,21 +97,6 @@ export default function PostDetail() {
         <p>A serif is a small shape or projection that appears at the beginning or end of a stroke on a letter.
           Typefaces with serifs are called serif typefaces. Serif fonts are classified as one of the
           following:</p>
-        <pre><code className="language-html">&lt;dl className="grid grid-cols-2 gap-8 max-w-screen-md text-gray-900 sm:grid-cols-3"&gt;
-          &lt;div className="flex flex-col justify-center items-center"&gt;
-          &lt;dt className="mb-2 text-3xl font-extrabold"&gt;73M+&lt;/dt&gt;
-          &lt;dd className="text-lg font-normal text-gray-500"&gt;developers&lt;/dd&gt;
-          &lt;/div&gt;
-          &lt;div className="flex flex-col justify-center items-center"&gt;
-          &lt;dt className="mb-2 text-3xl font-extrabold"&gt;1B+&lt;/dt&gt;
-          &lt;dd className="text-lg font-normal text-gray-500"&gt;contributors&lt;/dd&gt;
-          &lt;/div&gt;
-          &lt;div className="flex flex-col justify-center items-center"&gt;
-          &lt;dt className="mb-2 text-3xl font-extrabold"&gt;4M+&lt;/dt&gt;
-          &lt;dd className="text-lg font-normal text-gray-500"&gt;organizations&lt;/dd&gt;
-          &lt;/div&gt;
-          &lt;/dl&gt;
-        </code></pre>
         <h4>Table example</h4>
         <p>A serif is a small shape or projection that appears at the beginning or end of a stroke on a letter.
         </p>
@@ -195,7 +180,7 @@ export default function PostDetail() {
                 <p className="inline-flex items-center mr-3 font-semibold text-sm text-gray-900"><img
                   className="mr-2 w-6 h-6 rounded-full"
                   src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                  alt="Michael Gough"/>Michael Gough</p>
+                  alt="Michael Gough" />Michael Gough</p>
                 <p className="text-sm text-gray-600"><time dateTime="2022-02-08"
                   title="February 8th, 2022">Feb. 8, 2022</time></p>
               </div>
@@ -203,7 +188,7 @@ export default function PostDetail() {
                 className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
                 type="button">
                 <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
                 </svg>
                 <span className="sr-only">Comment settings</span>
               </button>
@@ -234,7 +219,7 @@ export default function PostDetail() {
               <button type="button"
                 className="flex items-center font-medium text-sm text-gray-500 hover:underline">
                 <svg className="mr-1.5 w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                  <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z"/>
+                  <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />
                 </svg>
                 Reply
               </button>
@@ -246,7 +231,7 @@ export default function PostDetail() {
                 <p className="inline-flex items-center mr-3 font-semibold text-sm text-gray-900"><img
                   className="mr-2 w-6 h-6 rounded-full"
                   src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                  alt="Jese Leos"/>Jese Leos</p>
+                  alt="Jese Leos" />Jese Leos</p>
                 <p className="text-sm text-gray-600"><time dateTime="2022-02-12"
                   title="February 12th, 2022">Feb. 12, 2022</time></p>
               </div>
@@ -254,7 +239,7 @@ export default function PostDetail() {
                 className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
                 type="button">
                 <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
                 </svg>
                 <span className="sr-only">Comment settings</span>
               </button>
@@ -283,7 +268,7 @@ export default function PostDetail() {
               <button type="button"
                 className="flex items-center font-medium text-sm text-gray-500 hover:underline">
                 <svg className="mr-1.5 w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                  <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z"/>
+                  <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />
                 </svg>
                 Reply
               </button>
@@ -295,7 +280,7 @@ export default function PostDetail() {
                 <p className="inline-flex items-center mr-3 font-semibold text-sm text-gray-900"><img
                   className="mr-2 w-6 h-6 rounded-full"
                   src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-                  alt="Bonnie Green"/>Bonnie Green</p>
+                  alt="Bonnie Green" />Bonnie Green</p>
                 <p className="text-sm text-gray-600"><time dateTime="2022-03-12"
                   title="March 12th, 2022">Mar. 12, 2022</time></p>
               </div>
@@ -303,7 +288,7 @@ export default function PostDetail() {
                 className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
                 type="button">
                 <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
                 </svg>
                 <span className="sr-only">Comment settings</span>
               </button>
@@ -332,7 +317,7 @@ export default function PostDetail() {
               <button type="button"
                 className="flex items-center font-medium text-sm text-gray-500 hover:underline">
                 <svg className="mr-1.5 w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                  <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z"/>
+                  <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />
                 </svg>
                 Reply
               </button>
@@ -344,7 +329,7 @@ export default function PostDetail() {
                 <p className="inline-flex items-center mr-3 font-semibold text-sm text-gray-900"><img
                   className="mr-2 w-6 h-6 rounded-full"
                   src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                  alt="Helene Engels"/>Helene Engels</p>
+                  alt="Helene Engels" />Helene Engels</p>
                 <p className="text-sm text-gray-600"><time dateTime="2022-06-23"
                   title="June 23rd, 2022">Jun. 23, 2022</time></p>
               </div>
@@ -352,7 +337,7 @@ export default function PostDetail() {
                 className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50"
                 type="button">
                 <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
                 </svg>
               </button>
               {/*-- Dropdown menu --*/}
@@ -380,7 +365,7 @@ export default function PostDetail() {
               <button type="button"
                 className="flex items-center font-medium text-sm text-gray-500 hover:underline">
                 <svg className="mr-1.5 w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                  <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z"/>
+                  <path d="M18 0H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2v4a1 1 0 0 0 1.707.707L10.414 13H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5 4h2a1 1 0 1 1 0 2h-2a1 1 0 1 1 0-2ZM5 4h5a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2Zm2 5H5a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Zm9 0h-6a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z" />
                 </svg>
                 Reply
               </button>

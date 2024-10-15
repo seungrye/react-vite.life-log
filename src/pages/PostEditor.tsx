@@ -6,8 +6,8 @@ export default function PostEditor() {
       <SubmitForm
         editorDefaultValue='**hello world**'
         onSubmit={value => {
-          const {title, category, date, content} = value;
-          console.log("title:",title,", category:", category,", date:", date, ", content:", content);
+          const { title, category, date, content } = value;
+          console.log("title:", title, ", category:", category, ", date:", date, ", content:", content);
         }}
       />
     </div>

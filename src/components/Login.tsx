@@ -8,8 +8,8 @@ interface LoginFormElement extends HTMLFormElement {
   readonly elements: FormElements
 }
 
-export default function Login({onSubmit}:{onSubmit:({email, password, rememberMe}:{email:string, password:string, rememberMe: boolean}) => void}) {
-  return <form className="max-w-sm mx-auto" onSubmit={(event:React.FormEvent<LoginFormElement>) => {
+export default function Login({ onSubmit }: { onSubmit: ({ email, password, rememberMe }: { email: string, password: string, rememberMe: boolean }) => void }) {
+  return <form className="max-w-sm mx-auto" onSubmit={(event: React.FormEvent<LoginFormElement>) => {
     event.preventDefault();
     const elements = event.currentTarget.elements;
     onSubmit({
@@ -32,7 +32,7 @@ export default function Login({onSubmit}:{onSubmit:({email, password, rememberMe
     </div>
     <div className="flex items-start mb-5">
       <div className="flex items-center h-5">
-        <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"/>
+        <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300" />
       </div>
       <label htmlFor="remember" className="ms-2 text-sm font-medium text-gray-900">
         Remember me

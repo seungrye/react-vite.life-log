@@ -8,7 +8,7 @@ const navigation = [
   { name: 'Calendar', href: '#', current: false },
 ]
 
-function classNames(...cssClasses: string[]):string {
+function classNames(...cssClasses: string[]): string {
   return cssClasses.filter(Boolean).join(' ')
 }
 

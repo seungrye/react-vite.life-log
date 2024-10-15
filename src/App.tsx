@@ -9,36 +9,38 @@ import PostDetail from './pages/PostDetail';
 
 const router = createBrowserRouter([
   {
-    path:"/",
-    element: <Layout/>,
+    path: "/",
+    element: <Layout />,
     children: [
       {
         path: "",
-        element: <Home/>
+        element: <Home />
       },
       {
         path: "profile",
         element: <Profile />
       },
-      { path: "edit",
-        element: <PostEditor/>
+      {
+        path: "edit",
+        element: <PostEditor />
       },
-      { path: "detail",
-        element: <PostDetail/>
+      {
+        path: "detail",
+        element: <PostDetail />
       }
     ]
   },
   {
     path: "/signin",
-    element: <Signin/>
+    element: <Signin />
   },
   {
     path: "/signup",
-    element: <Signup/>
+    element: <Signup />
   }
 ])
 
 export default function App() {
-  return <RouterProvider router={router}/>
+  return <RouterProvider router={router} />
 }
 
