@@ -10,6 +10,8 @@ import Archived from './pages/Archived';
 import Category from './pages/Category';
 import SearchResult from './pages/SearchResult';
 import Tag from './pages/Tag';
+import About from './pages/Status';
+import Status from './pages/Status';
 
 const router = createBrowserRouter([
   {
@@ -21,16 +23,8 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path: "profile",
-        element: <Profile />
-      },
-      {
-        path: "edit",
-        element: <PostEditor />
-      },
-      {
-        path: "detail",
-        element: <PostDetail />
+        path: "about/:user",
+        element: <About />
       },
       {
         path: "archived",
@@ -41,8 +35,24 @@ const router = createBrowserRouter([
         element: <Category />
       },
       {
+        path: "detail",
+        element: <PostDetail />
+      },
+      {
+        path: "edit",
+        element: <PostEditor />
+      },
+      {
+        path: "profile",
+        element: <Profile />
+      },
+      {
         path: "search",
         element: <SearchResult />
+      },
+      {
+        path: "status",
+        element: <Status />
       },
       {
         path: "tag",

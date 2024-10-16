@@ -7,7 +7,9 @@ export default function Layout() {
 
   return <>
     <Navbar pathname={location.pathname} />
-    <Outlet />
+    <div className='container mx-auto'>
+      <Outlet />
+    </div>
     <Footer />
   </>
 }
