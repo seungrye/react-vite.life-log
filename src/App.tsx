@@ -14,6 +14,7 @@ import About from './pages/Status';
 import Status from './pages/Status';
 import { auth } from './firebase';
 import { useEffect } from 'react';
+import Feedback404 from './components/Feedback404';
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />
+      },
+      {
+        path: "*",
+        element: <Feedback404 />
       }
     ]
   },
