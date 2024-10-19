@@ -20,9 +20,9 @@ export default function Status() {
         </h2>
         <p className="mt-6 text-lg leading-8 text-gray-900">
           If you cannot fly then run. If you cannot run, then walk. And, if you cannot walk, then crawl, but whatever you do, you have to keep moving forward.
-          <div className="text-right">
+          <span className="text-right block">
             – Martin Luther King Jr.
-          </div>
+          </span>
         </p>
       </div>
       <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">

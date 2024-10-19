@@ -12,6 +12,8 @@ import SearchResult from './pages/SearchResult';
 import Tag from './pages/Tag';
 import About from './pages/Status';
 import Status from './pages/Status';
+import { auth } from './firebase';
+import { useEffect } from 'react';
 
 const router = createBrowserRouter([
   {
@@ -57,20 +59,30 @@ const router = createBrowserRouter([
       {
         path: "tag",
         element: <Tag />
+      },
+      {
+        path: "/signin",
+        element: <Signin />
+      },
+      {
+        path: "/signup",
+        element: <Signup />
       }
     ]
   },
-  {
-    path: "/signin",
-    element: <Signin />
-  },
-  {
-    path: "/signup",
-    element: <Signup />
-  }
 ])
 
 export default function App() {
+
+  const init = async () => {
+    await auth.authStateReady();
+  }
+
+  useEffect(() => {
+    init();
+  }, []);
+
+
   return <RouterProvider router={router} />
 }
 
