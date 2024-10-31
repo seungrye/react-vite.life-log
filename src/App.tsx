@@ -7,7 +7,6 @@ import Signup from './pages/Signup';
 import PostEditor from './pages/PostEditor';
 import PostDetail from './pages/PostDetail';
 import Archived from './pages/Archived';
-import Category from './pages/Category';
 import SearchResult from './pages/SearchResult';
 import Tag from './pages/Tag';
 import About from './pages/Status';
@@ -26,16 +25,12 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path: "about/:user",
+        path: "about",
         element: <About />
       },
       {
         path: "archived",
         element: <Archived />
-      },
-      {
-        path: "category",
-        element: <Category />
       },
       {
         path: "detail",
