@@ -12,8 +12,9 @@ import Tag from './pages/Tag';
 import About from './pages/Status';
 import Status from './pages/Status';
 import { auth } from './firebase';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Feedback404 from './components/Feedback404';
+import Loading from './pages/Loading';
 
 const router = createBrowserRouter([
   {
@@ -73,16 +74,23 @@ const router = createBrowserRouter([
 ])
 
 export default function App() {
+  const [loading, setLoading] = useState<boolean>(true);
 
   const init = async () => {
     await auth.authStateReady();
+    setLoading(false);
   }
 
   useEffect(() => {
     init();
   }, []);
 
-
-  return <RouterProvider router={router} />
+  return <>
+    {loading ?
+      <Loading />
+      :
+      <RouterProvider router={router} />
+    }
+  </>
 }
 

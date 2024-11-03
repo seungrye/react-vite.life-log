@@ -39,7 +39,7 @@ export default function Editor(props: EditorProps) {
         />
       }
       {tab == "preview" &&
-        <div className="p-4">
+        <div className="p-4 h-[500px]">
           <Markdown>{value}</Markdown>
         </div>
       }

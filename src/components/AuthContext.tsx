@@ -1,22 +1,9 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "../firebase";
 import { User } from "firebase/auth";
+import { AuthContext } from "../types/AuthContext";
 
-type AuthContextType = {
-  authenticated: boolean | null,
-  setAuth: (value: boolean) => void,
-  user: User | null
-};
-
-const AuthContext = createContext<AuthContextType>({
-  authenticated: null,
-  setAuth: () => { },
-  user: null
-});
-
-export const useAuth = () => useContext(AuthContext);
-
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authenticated, setAuth] = useState<boolean | null>(!!auth.currentUser);
   const [user, setUser] = useState<User | null>(null);
 
@@ -29,4 +16,3 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   </AuthContext.Provider>
 }
 
-export default AuthProvider;

@@ -1,16 +1,4 @@
-interface FormElements extends HTMLFormControlsCollection {
-  email: HTMLInputElement,
-  password: HTMLInputElement
-  remember: HTMLInputElement
-}
-
-interface LoginFormElement extends HTMLFormElement {
-  readonly elements: FormElements
-}
-
-interface LoginProps {
-  onSubmit: (value: { email: string, password: string, rememberMe: boolean }) => void,
-}
+import { LoginFormElement, LoginProps } from "../types/Login";
 
 export default function Login(props: LoginProps) {
   const { onSubmit } = props;

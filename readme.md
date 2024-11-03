@@ -26,10 +26,15 @@ user {
 }
 
 post {
-  tag: [],
-  category: str,
+  author: str, // email
   title: str,
   content: str (markdown),
-  date: date, // 마지막 수정/생성 시간
+  category: str,
+  tags: [],
+  likes: number,
+  createdAt: date,
+  updatedAt: data,
 }
 ```
+
+* Note. SubmitForm.tsx 에서 tag inline input 은 [tagify](https://yaireo.github.io/tagify/) 를 사용해 보도록 하자

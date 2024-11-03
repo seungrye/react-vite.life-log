@@ -7,16 +7,27 @@ import { useNavigate } from "react-router-dom";
 export default function Signup() {
   const navigate = useNavigate();
 
-  const onSubmit = async (value: any) => {
+  const onSubmit = async (value: { name: string, email: string, password: string }) => {
     const { name, email, password } = value;
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       await updateProfile(userCredential.user, { displayName: name });
       navigate("/");
-    } catch (error: (FirebaseError | any)) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error("code : ", errorCode, " / message : ", errorMessage);
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        // FirebaseError 에 대한 처리
+        const errorCode = error?.code;
+        const errorMessage = error?.message;
+        console.error("code : ", errorCode, " / message : ", errorMessage);
+      } else if (error instanceof Error) {
+        // 일반적인 JavaScript 에러 처리
+        console.error("General Error:", error.message);
+        alert(`Error: ${error.message}`);
+      } else {
+        // 예기치 않은 에러 처리
+        console.error("Unknown Error:", error);
+        alert("An unknown error occurred.");
+      }
     }
   }
 
