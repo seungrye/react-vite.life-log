@@ -18,3 +18,18 @@ src/
 ```
 
 * Note. Tag.js 는 [react-wordcloud](https://github.com/chrisrzhou/react-wordcloud) 를 사용하도록 해 보자
+
+```json
+user {
+  email:,
+  displayName:,
+}
+
+post {
+  tag: [],
+  category: str,
+  title: str,
+  content: str (markdown),
+  date: date, // 마지막 수정/생성 시간
+}
+```
