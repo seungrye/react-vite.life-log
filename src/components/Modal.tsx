@@ -1,8 +1,8 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-import { ModalProps } from '../types/Modal';
+import { IModalProps } from '../types/Modal';
 
-export function WarningModal(props: ModalProps) {
+export function WarningModal(props: IModalProps) {
   const { title, description, onCancel = null, onConfirm } = props;
 
   return <Dialog open={true} onClose={onConfirm} className="relative z-10">

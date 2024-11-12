@@ -1,13 +1,13 @@
 import { useState } from "react";
 import Editor from "./Editor";
-import { SubmitFormElement, SubmitFormProps } from "../types/SubmitForm";
+import { ISubmitFormElement, ISubmitFormProps } from "../types/SubmitForm";
 
-export function SubmitForm(props: SubmitFormProps) {
+export function SubmitForm(props: ISubmitFormProps) {
   const { onSubmit, editorDefaultValue = "" } = props;
   const [content, setContent] = useState(editorDefaultValue);
   const [loading, setLoading] = useState<boolean>(false);
 
-  return <form onSubmit={async (event: React.FormEvent<SubmitFormElement>) => {
+  return <form onSubmit={async (event: React.FormEvent<ISubmitFormElement>) => {
     event.preventDefault();
     if (loading) return console.log("posting...");
 

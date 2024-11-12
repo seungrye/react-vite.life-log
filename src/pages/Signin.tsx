@@ -5,12 +5,12 @@ import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
 import { WarningModal } from "../components/Modal";
 import { useAuth } from "../hook/useAuth";
-import { LoginHandlerValues } from "../types/Login";
+import { ILoginHandlerValues } from "../types/Login";
 
 export default function Signin() {
   const navigate = useNavigate();
   const { authenticated, setAuth } = useAuth();
-  const onSubmit = async (value: LoginHandlerValues) => {
+  const onSubmit = async (value: ILoginHandlerValues) => {
     const { email, password, rememberMe } = value;
 
     try {

@@ -1,20 +1,20 @@
-interface FormElements extends HTMLFormControlsCollection {
+interface IFormElements extends HTMLFormControlsCollection {
   email: HTMLInputElement,
   password: HTMLInputElement
   remember: HTMLInputElement
 }
 
-export interface LoginFormElement extends HTMLFormElement {
-  readonly elements: FormElements
+export interface ILoginFormElement extends HTMLFormElement {
+  readonly elements: IFormElements
 }
 
-export interface LoginHandlerValues {
+export interface ILoginHandlerValues {
   email: string
   password: string
   rememberMe: boolean
 }
 
-export interface LoginProps {
-  onSubmit: (value: LoginHandlerValues) => void,
+export interface ILoginProps {
+  onSubmit: (value: ILoginHandlerValues) => void,
 }
 

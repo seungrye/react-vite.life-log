@@ -1,9 +1,9 @@
-import { LoginFormElement, LoginProps } from "../types/Login";
+import { ILoginFormElement, ILoginProps } from "../types/Login";
 
-export default function Login(props: LoginProps) {
+export default function Login(props: ILoginProps) {
   const { onSubmit } = props;
 
-  return <form className="max-w-sm mx-auto" onSubmit={(event: React.FormEvent<LoginFormElement>) => {
+  return <form className="max-w-sm mx-auto" onSubmit={(event: React.FormEvent<ILoginFormElement>) => {
     event.preventDefault();
     const elements = event.currentTarget.elements;
     onSubmit({

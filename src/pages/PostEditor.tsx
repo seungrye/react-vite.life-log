@@ -1,15 +1,15 @@
 import { addDoc, collection } from "firebase/firestore";
 import { SubmitForm } from "../components/SubmitForm";
-import { SubmitFormHandlerValue } from "../types/SubmitForm";
+import { ISubmitFormHandlerValue } from "../types/SubmitForm";
 import { auth, db } from "../firebase";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { WarningModal } from "../components/Modal";
-import { ModalProps } from "../types/Modal";
+import { IModalProps } from "../types/Modal";
 
 
 export default function PostEditor() {
-  const [error, setError] = useState<ModalProps | null>(null);
+  const [error, setError] = useState<IModalProps | null>(null);
   const navigate = useNavigate();
 
   const checkAuth = () => {
@@ -28,11 +28,11 @@ export default function PostEditor() {
     return true;
   }
 
-  const onSubmit = async (value: SubmitFormHandlerValue) => {
+  const onSubmit = async (value: ISubmitFormHandlerValue) => {
     if (!checkAuth()) return console.warn("require login");
 
     const { title, category, createdAt, content, tags } = value;
-    const tagArray = tags.split("#").filter(v => v).map(v => v.trim().replace(/ /g, '_'));
+    const tagArray = tags.split(",").filter(v => v).map(v => v.trim().replace(/ /g, '_'));
     console.log("title:", title, ", category:", category, ", createdAt:", createdAt, ", content:", content, ", tags:", tagArray);
 
     await addDoc(

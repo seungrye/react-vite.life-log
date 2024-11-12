@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         element: <Archived />
       },
       {
-        path: "detail",
+        path: "detail/:id",
         element: <PostDetail />
       },
       {
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         element: <Profile />
       },
       {
-        path: "search",
+        path: "search/:query",
         element: <SearchResult />
       },
       {

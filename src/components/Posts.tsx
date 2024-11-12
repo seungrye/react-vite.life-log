@@ -1,3 +1,10 @@
+import { Unsubscribe } from "firebase/auth";
+import { query, collection, orderBy, limit, onSnapshot, Timestamp } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "../firebase";
+import { Link } from "react-router-dom";
+import { IPostProps, IPosts } from "../types/Posts";
+
 function SkeletonPost() {
   return <div role="status" className="max-w-sm border border-gray-200 rounded shadow animate-pulse">
     <div className="flex items-center justify-center h-64 bg-gray-300">
@@ -18,9 +25,11 @@ function SkeletonPost() {
     </div>
     <span className="sr-only">Loading...</span>
   </div>
-
 }
-function Post({ category, title, date, banner, summary }: { category: string, title: string, date: string, banner: string, summary: string }) {
+
+function Post(props: IPostProps) {
+  const { id, category, title, date, banner, summary } = props;
+
   return <div className="overflow-hidden transition-shadow duration-300 bg-white rounded shadow-sm">
     <img
       src={banner}
@@ -29,63 +38,95 @@ function Post({ category, title, date, banner, summary }: { category: string, ti
     />
     <div className="p-5 border border-t-0">
       <p className="mb-3 text-xs font-semibold tracking-wide uppercase">
-        <a
-          href="/"
+      <Link to={`/search/?category=${category}`}
           className="transition-colors duration-200 text-blue-gray-900 hover:text-deep-purple-accent-700"
           aria-label="Category"
           title={category}
         >
           {category}
-        </a>
+        </Link>
         <span className="text-gray-600">— {date}</span>
       </p>
-      <a
-        href="/"
-        aria-label="Category"
+      <Link to={`/detail/${id}`}
+        aria-label="Title"
         title={title}
         className="inline-block mb-3 text-2xl font-bold leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700"
       >
         {title}
-      </a>
-      <p className="mb-2 text-gray-700">
-        {summary}
-      </p>
-      <a
-        href="/"
-        aria-label=""
+      </Link>
+      <Link to={`/detail/${id}`}
+        aria-label="Summary"
+        title={title}
+      >
+        <p id="Summary" className="mb-2 text-gray-700 min-h-20 line-clamp-3">
+          {summary}
+        </p>
+      </Link>
+      <Link to={`/detail/${id}`}
+        aria-label="Content"
         className="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800"
       >
         Learn more
-      </a>
+      </Link>
     </div>
   </div>
 }
 
 export default function Posts() {
-  return <>
+  const [posts, setPosts] = useState<IPosts[] | null[]>([null, null, null, null, null, null]);
+
+  useEffect(() => {
+    let unsubscribe: Unsubscribe | null = null;
+    const fetchPosts = async () => {
+      const postsQuery = query(
+        collection(db, "posts"),
+        orderBy("createdAt", "desc"),
+        limit(6)
+      );
+
+      unsubscribe = onSnapshot(postsQuery, (snapshot) => {
+        const posts = snapshot.docs.map(doc => {
+          const { author, category, content, createdAt, likes, tags, title, updatedAt } = doc.data();
+
+          return {
+            id: doc.id,
+            author, 
+            category, 
+            content, 
+            createdAt, 
+            likes, 
+            tags, 
+            title, 
+            updatedAt
+          };
+        });
+        setPosts(posts);
+      });
+    }
+
+    fetchPosts();
+
+    return () => { unsubscribe?.(); }
+  }, []);
+
+return <>
     <div className="grid gap-8 grid-cols-1 sm:max-w-sm sm:mx-auto md:max-w-full md:grid-cols-2 lg:max-w-full lg:grid-cols-3">
-      <SkeletonPost />
-      <Post
-        banner="https://images.pexels.com/photos/2408666/pexels-photo-2408666.jpeg"
-        category="traveling"
-        date="28 Dec 2020"
-        title="Visit the East"
-        summary="Sed ut perspiciatis unde omnis iste natus error sit sed quia consequuntur magni voluptatem doloremque."
-      />
-      <Post
-        banner="https://images.pexels.com/photos/447592/pexels-photo-447592.jpeg"
-        category="traveling"
-        date="28 Dec 2020"
-        title="Simple is better"
-        summary="Sed ut perspiciatis unde omnis iste natus error sit sed quia consequuntur magni voluptatem doloremque."
-      />
-      <Post
-        banner="https://images.pexels.com/photos/139829/pexels-photo-139829.jpeg"
-        category="traveling"
-        date="28 Dec 2020"
-        title="Film It!"
-        summary="Sed ut perspiciatis unde omnis iste natus error sit sed quia consequuntur magni voluptatem doloremque."
-      />
+      {posts.map((post, index) => 
+        post ? 
+        <Post
+          key={index}
+          id={post.id}
+          banner="https://images.pexels.com/photos/2408666/pexels-photo-2408666.jpeg"
+          category={post.category}
+          date={post.createdAt.toDate().toLocaleString(undefined, {year: "numeric", month:"short", day: "numeric"})}
+          title={post.title}
+          summary={post.content.slice(0, 100)}
+        />
+        :
+        <SkeletonPost 
+          key = {index}
+        />
+      )}
     </div>
   </>
 }

@@ -1,15 +1,15 @@
-interface FormElements extends HTMLFormControlsCollection {
+interface IFormElements extends HTMLFormControlsCollection {
   title: HTMLInputElement,
   category: HTMLInputElement
   date: HTMLInputElement,
   tags: HTMLInputElement,
 }
 
-export interface SubmitFormElement extends HTMLFormElement {
-  readonly elements: FormElements
+export interface ISubmitFormElement extends HTMLFormElement {
+  readonly elements: IFormElements
 }
 
-export interface SubmitFormHandlerValue {
+export interface ISubmitFormHandlerValue {
   title: string
   content: string
   category: string
@@ -17,8 +17,8 @@ export interface SubmitFormHandlerValue {
   createdAt: Date | null
 }
 
-export interface SubmitFormProps {
-  onSubmit: (value: SubmitFormHandlerValue) => void,
+export interface ISubmitFormProps {
+  onSubmit: (value: ISubmitFormHandlerValue) => void,
   editorDefaultValue?: string // to use default value
 }
 

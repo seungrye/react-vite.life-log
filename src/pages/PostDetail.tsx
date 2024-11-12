@@ -1,4 +1,8 @@
+import { useParams } from "react-router-dom"
+
 export default function PostDetail() {
+  const params = useParams();
+
   return <div className='container mx-auto my-4'>
     <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl lg:px-8 lg:py-10">
       <article className="mx-auto w-full format format-sm sm:format-base lg:format-lg format-blue antialiased">
