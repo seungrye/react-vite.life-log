@@ -1,9 +1,9 @@
 import { Unsubscribe } from "firebase/auth";
-import { query, collection, orderBy, limit, onSnapshot, Timestamp } from "firebase/firestore";
+import { query, collection, orderBy, limit, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { Link } from "react-router-dom";
-import { IPostProps, IPosts } from "../types/Posts";
+import { IPostProps, IPost } from "../types/Posts";
 
 function SkeletonPost() {
   return <div role="status" className="max-w-sm border border-gray-200 rounded shadow animate-pulse">
@@ -38,7 +38,7 @@ function Post(props: IPostProps) {
     />
     <div className="p-5 border border-t-0">
       <p className="mb-3 text-xs font-semibold tracking-wide uppercase">
-      <Link to={`/search/?category=${category}`}
+        <Link to={`/search/?category=${category}`}
           className="transition-colors duration-200 text-blue-gray-900 hover:text-deep-purple-accent-700"
           aria-label="Category"
           title={category}
@@ -73,7 +73,7 @@ function Post(props: IPostProps) {
 }
 
 export default function Posts() {
-  const [posts, setPosts] = useState<IPosts[] | null[]>([null, null, null, null, null, null]);
+  const [posts, setPosts] = useState<IPost[] | null[]>([null, null, null, null, null, null]);
 
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
@@ -90,13 +90,13 @@ export default function Posts() {
 
           return {
             id: doc.id,
-            author, 
-            category, 
-            content, 
-            createdAt, 
-            likes, 
-            tags, 
-            title, 
+            author,
+            category,
+            content,
+            createdAt,
+            likes,
+            tags,
+            title,
             updatedAt
           };
         });
@@ -109,23 +109,23 @@ export default function Posts() {
     return () => { unsubscribe?.(); }
   }, []);
 
-return <>
+  return <>
     <div className="grid gap-8 grid-cols-1 sm:max-w-sm sm:mx-auto md:max-w-full md:grid-cols-2 lg:max-w-full lg:grid-cols-3">
-      {posts.map((post, index) => 
-        post ? 
-        <Post
-          key={index}
-          id={post.id}
-          banner="https://images.pexels.com/photos/2408666/pexels-photo-2408666.jpeg"
-          category={post.category}
-          date={post.createdAt.toDate().toLocaleString(undefined, {year: "numeric", month:"short", day: "numeric"})}
-          title={post.title}
-          summary={post.content.slice(0, 100)}
-        />
-        :
-        <SkeletonPost 
-          key = {index}
-        />
+      {posts.map((post, index) =>
+        post ?
+          <Post
+            key={index}
+            id={post.id}
+            banner="https://images.pexels.com/photos/2408666/pexels-photo-2408666.jpeg"
+            category={post.category}
+            date={post.createdAt.toDate().toLocaleString(undefined, { year: "numeric", month: "short", day: "numeric" })}
+            title={post.title}
+            summary={post.content.slice(0, 100)}
+          />
+          :
+          <SkeletonPost
+            key = {index}
+          />
       )}
     </div>
   </>
