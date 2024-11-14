@@ -71,9 +71,9 @@ export default function PostDetail() {
             </h1>
             <hr />
           </header>
-          <p className="lead prose">
+          <div className="lead prose">
             <Markdown>{post?.content}</Markdown>
-          </p>
+          </div>
 
           {/*
           <p className="lead">Flowbite is an open-source library of UI components built with the utility-first
