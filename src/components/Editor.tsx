@@ -3,7 +3,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { xcodeLight } from "@uiw/codemirror-theme-xcode";
-import Markdown from "marked-react";
+import { MarkView } from "./MarkView";
 
 interface EditorProps {
   id?: string,
@@ -28,7 +28,7 @@ export default function Editor(props: EditorProps) {
         Preview
       </button>
     </div>
-    <div className="w-full h-full prose max-w-none min-h-auto prose-indigo leading-6 rounded-b-md shadow-sm border border-gray-300 bg-white overflow-y-auto">
+    <div className="w-full h-full prose lg:max-w-none min-h-auto prose-indigo leading-6 rounded-b-md shadow-sm border border-gray-300 bg-white overflow-y-auto">
       {tab == "write" &&
         <CodeMirror
           value={value}
@@ -40,7 +40,7 @@ export default function Editor(props: EditorProps) {
       }
       {tab == "preview" &&
         <div className="p-4 h-[500px]">
-          <Markdown>{value}</Markdown>
+          <MarkView content={value}/>
         </div>
       }
     </div>

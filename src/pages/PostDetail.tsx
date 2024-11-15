@@ -1,17 +1,17 @@
 import { doc, getDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useCallback, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom"
 import { db } from "../firebase";
 import { IPost } from "../types/Posts";
 import Loading from "./Loading";
-import Markdown from "marked-react";
+import { MarkView } from "../components/MarkView";
 
 export default function PostDetail() {
   const { id } = useParams() as { id: string };
   const [post, setPost] = useState<IPost | null>(null)
   const [loading, setLoading] = useState<boolean>(true);
 
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       const docRef = doc(db, "posts", id)
       const docSnap = await getDoc(docRef)
@@ -36,11 +36,11 @@ export default function PostDetail() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [id]);
 
   useEffect(() => {
     fetchPost();
-  })
+  }, [fetchPost])
 
 
   return <>{loading ?
@@ -71,8 +71,12 @@ export default function PostDetail() {
             </h1>
             <hr />
           </header>
-          <div className="lead prose">
-            <Markdown>{post?.content}</Markdown>
+          <div className="lead prose prose-pre:p-2 mb-4 lg:max-w-none">
+            {post && <MarkView content={post.content}/>}
+          </div>
+          <div>
+            <hr  className="pt-4"/>
+            Tags with : {post?.tags.map((tag, index) => <Link key={index} to="#" className="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">{tag}</Link>)}
           </div>
 
           {/*
