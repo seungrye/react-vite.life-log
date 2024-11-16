@@ -1,15 +1,19 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom"
-import { db } from "../firebase";
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { auth, db } from "../firebase";
 import { IPost } from "../types/Posts";
 import Loading from "./Loading";
 import { MarkView } from "../components/MarkView";
+import { PencilSquareIcon as OutlinePencilSquareIcon } from "@heroicons/react/24/outline";
 
 export default function PostDetail() {
   const { id } = useParams() as { id: string };
   const [post, setPost] = useState<IPost | null>(null)
   const [loading, setLoading] = useState<boolean>(true);
+  const [editable, setEditable] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const fetchPost = useCallback(async () => {
     try {
@@ -31,6 +35,9 @@ export default function PostDetail() {
         title,
         updatedAt
       });
+
+      console.log("currentUser.email", auth.currentUser?.email)
+      setEditable(auth.currentUser?.email === author)
     } catch (e) {
       console.error(e)
     } finally {
@@ -66,16 +73,26 @@ export default function PostDetail() {
                 </div>
               </div>
             </address>
-            <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl">
-              {post?.title}
-            </h1>
-            <hr />
+            <div className="flex items-center pb-4 lg:pb-6 border-b-2 border-b-gray-200">
+              <div className="flex-1">
+                <h1 className="text-3xl font-extrabold leading-tight text-gray-900 lg:text-4xl">
+                  {post?.title}
+                </h1>
+              </div>
+              {editable &&
+                <div className="flex-none w-fit px-4">
+                  <OutlinePencilSquareIcon className="size-6 text-black cursor-pointer hover:text-gray-600"
+                    onClick={() => navigate(`/edit/${post?.id}`)}
+                  />
+                </div>
+              }
+            </div>
           </header>
           <div className="lead prose prose-pre:p-2 mb-4 lg:max-w-none">
-            {post && <MarkView content={post.content}/>}
+            {post && <MarkView content={post.content} />}
           </div>
           <div>
-            <hr  className="pt-4"/>
+            <hr className="pt-4" />
             Tags with : {post?.tags.map((tag, index) => <Link key={index} to="#" className="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">{tag}</Link>)}
           </div>
 

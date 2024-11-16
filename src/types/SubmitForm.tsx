@@ -1,3 +1,5 @@
+import { IPost } from "./Posts"
+
 interface IFormElements extends HTMLFormControlsCollection {
   title: HTMLInputElement,
   category: HTMLInputElement
@@ -14,11 +16,12 @@ export interface ISubmitFormHandlerValue {
   content: string
   category: string
   tags: string
-  createdAt: Date | null
+  createdAt: Date
+  updatedAt: Date | null
 }
 
 export interface ISubmitFormProps {
   onSubmit: (value: ISubmitFormHandlerValue) => void,
-  editorDefaultValue?: string // to use default value
+  post?: IPost
 }
 
