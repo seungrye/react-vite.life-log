@@ -38,7 +38,7 @@ const router = createBrowserRouter([
         element: <PostDetail />
       },
       {
-        path: "edit/:id",
+        path: "edit/:id?",
         element: <PostEditor />
       },
       {

@@ -1,5 +1,5 @@
 import CodeMirror from '@uiw/react-codemirror';
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { languages } from '@codemirror/language-data';
 import { xcodeLight } from "@uiw/codemirror-theme-xcode";
@@ -31,7 +31,11 @@ export function SubmitForm(props: ISubmitFormProps) {
     } finally {
       setLoading(false);
     }
-  }, [content])
+  }, [content, loading, onSubmit])
+
+  useEffect(() => {
+    setContent(post?.content || "");
+  }, [post?.content]);
 
   return <form onSubmit={handleSubmit}>
     <div className="grid gap-4 sm:grid-cols-4 sm:gap-6">
@@ -60,7 +64,7 @@ export function SubmitForm(props: ISubmitFormProps) {
       <div className="w-full">
         <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900">Date</label>
         <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-          defaultValue={post?.createdAt.toDate().toISOString().substring(0, 10)}
+          defaultValue={(post?.createdAt.toDate() || new Date()).toISOString().substring(0, 10)}
           type="date"
           name="date"
           id="date"
@@ -87,7 +91,7 @@ export function SubmitForm(props: ISubmitFormProps) {
           <div className="w-full h-full prose lg:max-w-none min-h-auto prose-indigo leading-6 rounded-b-md shadow-sm border border-gray-300 bg-white overflow-y-auto">
             <CodeMirror
               className={tab == "write" ? "" : "hidden"}
-              defaultValue={post?.content || ""}
+              value={content}
               onChange={setContent}
               height="500px"
               theme={xcodeLight}

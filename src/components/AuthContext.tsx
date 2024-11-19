@@ -1,17 +1,26 @@
 import { useEffect, useState } from "react";
-import { auth } from "../firebase";
-import { User } from "firebase/auth";
 import { AuthContext } from "../types/AuthContext";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [authenticated, setAuth] = useState<boolean | null>(!!auth.currentUser);
-  const [user, setUser] = useState<User | null>(null);
+  const [authenticated, setAuthenticated] = useState<boolean | null>(() => {
+    const savedAuth = sessionStorage.getItem('authenticated');
+    return savedAuth ? JSON.parse(savedAuth) : null;
+  });
+
+  const setAuth = (value: boolean) => {
+    setAuthenticated(value);
+    sessionStorage.setItem('authenticated', JSON.stringify(value));
+  };
 
   useEffect(() => {
-    setUser(auth.currentUser);
-  }, [authenticated]);
+    const savedAuth = sessionStorage.getItem('authenticated');
+    if (savedAuth) {
+      setAuthenticated(JSON.parse(savedAuth));
+    }
+  }, []);
 
-  return <AuthContext.Provider value={{ authenticated, setAuth, user }}>
+
+  return <AuthContext.Provider value={{ authenticated, setAuth }}>
     {children}
   </AuthContext.Provider>
 }

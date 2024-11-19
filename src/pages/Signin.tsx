@@ -6,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { WarningModal } from "../components/Modal";
 import { useAuth } from "../hook/useAuth";
 import { ILoginHandlerValues } from "../types/Login";
+import { useCallback } from "react";
 
 export default function Signin() {
   const navigate = useNavigate();
   const { authenticated, setAuth } = useAuth();
-  const onSubmit = async (value: ILoginHandlerValues) => {
+  const onSubmit = useCallback(async (value: ILoginHandlerValues) => {
     const { email, password, rememberMe } = value;
 
     try {
@@ -33,8 +34,9 @@ export default function Signin() {
         console.error("Unknown Error:", error);
         alert("An unknown error occurred.");
       }
+      setAuth(false);
     }
-  }
+  }, [navigate, setAuth]);
 
   return <div className='container mx-auto my-4'>
     <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl lg:px-8 lg:py-10">

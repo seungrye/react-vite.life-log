@@ -7,11 +7,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { WarningModal } from "../components/Modal";
 import { IModalProps } from "../types/Modal";
 import { IPost } from "../types/Posts";
+import Loading from "./Loading";
 
 export default function PostEditor() {
   const { id } = useParams() as { id: string };
   const [error, setError] = useState<IModalProps | null>(null);
   const [post, setPost] = useState<IPost | undefined>(undefined)
+  const [loading, setLoading] = useState<boolean>(true);
+
   const navigate = useNavigate();
 
   const checkAuth = useCallback(() => {
@@ -28,7 +31,7 @@ export default function PostEditor() {
     }
 
     return true;
-  }, [])
+  }, [navigate])
 
   const onSubmit = useCallback(async (value: ISubmitFormHandlerValue) => {
     if (!checkAuth()) return console.warn("require login");
@@ -37,6 +40,7 @@ export default function PostEditor() {
     const tagArray = tags.split(",").filter(v => v).map(v => v.trim().replace(/ /g, '_'));
     //console.log("title:", title, ", category:", category, ", createdAt:", createdAt, ", content:", content, ", tags:", tagArray);
 
+    let docId;
     if (id) {
       await updateDoc(
         doc(db, "posts", id), {
@@ -46,8 +50,9 @@ export default function PostEditor() {
         tags: tagArray,
         updatedAt: updatedAt,
       })
+      docId = id;
     } else {
-      await addDoc(
+      const doc = await addDoc(
         collection(db, "posts"), {
         author: auth.currentUser?.email,
         title,
@@ -57,9 +62,11 @@ export default function PostEditor() {
         likes: 0,
         createdAt,
         updatedAt: null,
-      })
+      });
+      docId = doc.id;
     }
-  }, []);
+    navigate(`/detail/${docId}`)
+  }, [id, checkAuth, navigate]);
 
   const fetchPost = useCallback(async () => {
     try {
@@ -90,16 +97,22 @@ export default function PostEditor() {
 
   useEffect(() => {
     checkAuth();
-    id && fetchPost();
-  }, []);
+    if (id) fetchPost();
+    setLoading(false)
+  }, [id, checkAuth, fetchPost]);
 
-  return <div className='container mx-auto my-4'>
-    <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl lg:px-8 lg:py-10">
-      <SubmitForm
-        post={post}
-        onSubmit={onSubmit}
-      />
+  return <>{loading ?
+    <Loading />
+    :
+    <div className='container mx-auto my-4'>
+      <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl lg:px-8 lg:py-10">
+        <SubmitForm
+          post={post}
+          onSubmit={onSubmit}
+        />
+      </div>
+      {error && <WarningModal {...error} />}
     </div>
-    {error && <WarningModal {...error} />}
-  </div>
+  }
+  </>
 }
