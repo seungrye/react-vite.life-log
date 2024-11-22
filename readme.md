@@ -17,7 +17,8 @@ src/
 │    ├─ Archive.js        // 연도별, 월별 게시물을 정리해서 보여주는 아카이브 페이지
 ```
 
-* Note. Tag.js 는 [react-wordcloud](https://github.com/chrisrzhou/react-wordcloud) 를 사용하도록 해 보자
+* Note. Tag.js 는 [react-wordcloud](https://github.com/chrisrzhou/react-wordcloud) 를 사용하도록 해 보자read
+  * react-wordcloud 는 deprecated 되었음. <https://airbnb.io/visx/wordcloud> 를 사용해 보도록 하자.
 
 ```json
 user {
