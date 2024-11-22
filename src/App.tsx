@@ -15,6 +15,7 @@ import { auth } from './firebase';
 import { useEffect, useState } from 'react';
 import Feedback404 from './components/Feedback404';
 import Loading from './pages/Loading';
+import { migrateFirestore } from './migrate/Migrate';
 
 const router = createBrowserRouter([
   {
@@ -82,6 +83,7 @@ export default function App() {
   }
 
   useEffect(() => {
+    migrateFirestore();
     init();
   }, []);
 
