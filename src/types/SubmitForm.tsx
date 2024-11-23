@@ -21,7 +21,7 @@ export interface ISubmitFormHandlerValue {
 }
 
 export interface ISubmitFormProps {
-  onSubmit: (value: ISubmitFormHandlerValue) => void,
+  onSubmit: (value: ISubmitFormHandlerValue) => Promise<void>,
   post?: IPost
 }
 

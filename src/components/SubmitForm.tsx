@@ -16,22 +16,22 @@ export function SubmitForm(props: ISubmitFormProps) {
     if (loading) return console.log("posting...");
     event.preventDefault();
 
-    const { title, category, date, tags } = event.currentTarget.elements;
+    const { title, category, tags } = event.currentTarget.elements;
 
     try {
       setLoading(true);
-      onSubmit({
+      await onSubmit({
         title: title.value,
         content: content,
         category: category.value,
         tags: tags.value,
-        createdAt: date.valueAsDate || new Date(),
+        createdAt: post?.createdAt?.toDate() || new Date(),
         updatedAt: new Date()
       });
     } finally {
       setLoading(false);
     }
-  }, [content, loading, onSubmit])
+  }, [content, loading, post, onSubmit])
 
   useEffect(() => {
     setContent(post?.content || "");
@@ -69,7 +69,7 @@ export function SubmitForm(props: ISubmitFormProps) {
           name="date"
           id="date"
           placeholder="Date"
-          disabled={Boolean(post)}
+          disabled={true}
           required={true}
         />
       </div>

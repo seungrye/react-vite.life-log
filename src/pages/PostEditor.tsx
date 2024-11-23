@@ -157,13 +157,12 @@ export default function PostEditor() {
 
     for (const tag of newTags) {
       const docRef = await addTagByNameWithTransaction(tag);
-      await addTagToPostV2WithTransaction(docRef.id, id)
       tags.push(docRef.id)
     }
 
     for (const tag of removedTags) {
       const docRef = await removeTagByNameWithTransaction(tag);
-      docRef && await removeTagToPostV2WithTransaction(docRef.id, id)
+      if (docRef) { await removeTagToPostV2WithTransaction(docRef.id, id); }
     }
 
     if (unchangedItems.length > 0) {
@@ -182,8 +181,11 @@ export default function PostEditor() {
       createdAt,
       updatedAt: updatedAt,
     });
+
+    for (const tagId of tags) { await addTagToPostV2WithTransaction(tagId, docId) }
+
     navigate(`/detail/${docId}`)
-  }, [id, post, checkAuth, navigate]);
+  }, [id, post?.tags, checkAuth, upsertDoc, navigate, addTagByNameWithTransaction, removeTagByNameWithTransaction, removeTagToPostV2WithTransaction, addTagToPostV2WithTransaction]);
 
   const fetchPost = useCallback(async () => {
     try {
