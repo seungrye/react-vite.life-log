@@ -6,12 +6,14 @@ import { IPost } from "../types/Posts";
 import Loading from "./Loading";
 import { MarkView } from "../components/MarkView";
 import { PencilSquareIcon as OutlinePencilSquareIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "../hook/useAuth";
 
 export default function PostDetail() {
   const { id } = useParams() as { id: string };
   const [post, setPost] = useState<IPost | null>(null)
   const [loading, setLoading] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(false);
+  const { authenticated } = useAuth();
 
   const navigate = useNavigate();
 
@@ -24,7 +26,7 @@ export default function PostDetail() {
       }
 
       const { author, category, content, createdAt, likes, tags: tagIdList, title, updatedAt } = docSnap.data();
-      console.log("post", author, category, createdAt, likes, tagIdList, title, updatedAt)
+      // console.log("post", author, category, createdAt, likes, tagIdList, title, updatedAt)
 
       const tags: string[] = []
       const tagsQuery = query(collection(db, "tags"), where(documentId(), "in", tagIdList));
@@ -46,8 +48,7 @@ export default function PostDetail() {
         updatedAt
       });
 
-      console.log("currentUser.email", auth.currentUser?.email)
-      setEditable(auth.currentUser?.email === author)
+      setEditable(authenticated && auth.currentUser?.email === author)
     } catch (e) {
       console.error(e)
     } finally {
@@ -58,7 +59,6 @@ export default function PostDetail() {
   useEffect(() => {
     fetchPost();
   }, [fetchPost])
-
 
   return <>{loading ?
     <Loading />

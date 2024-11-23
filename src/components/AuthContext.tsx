@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { AuthContext } from "../types/AuthContext";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [authenticated, setAuthenticated] = useState<boolean | null>(() => {
+  const [authenticated, setAuthenticated] = useState<boolean>(() => {
     const savedAuth = sessionStorage.getItem('authenticated');
-    return savedAuth ? JSON.parse(savedAuth) : null;
+    return savedAuth ? JSON.parse(savedAuth) : false;
   });
 
   const setAuth = (value: boolean) => {

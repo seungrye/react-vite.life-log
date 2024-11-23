@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, documentId, getDoc, getDocs, query, runTransaction, updateDoc, where } from "firebase/firestore";
 import { SubmitForm } from "../components/SubmitForm";
 import { ISubmitFormHandlerValue } from "../types/SubmitForm";
 import { auth, db } from "../firebase";
@@ -33,51 +33,176 @@ export default function PostEditor() {
     return true;
   }, [navigate])
 
-  const onSubmit = useCallback(async (value: ISubmitFormHandlerValue) => {
-    if (!checkAuth()) return console.warn("require login");
+  const addTagByNameWithTransaction = useCallback(async (name: string) => {
+    const colRef = collection(db, "tags");
+    return await runTransaction(db, async (transaction) => {
+      let docRef;
 
-    const { title, category, createdAt, updatedAt, content, tags } = value;
-    const tagArray = tags.split(",").filter(v => v).map(v => v.trim().replace(/ /g, '_'));
-    //console.log("title:", title, ", category:", category, ", createdAt:", createdAt, ", content:", content, ", tags:", tagArray);
+      // `name` 필드가 특정 값인 문서 검색
+      const tagQuery = query(colRef, where("name", "==", name));
+      const tagSnapshot = await getDocs(tagQuery);
 
-    let docId;
+      if (!tagSnapshot.empty) {
+        // 문서가 존재하면 업데이트
+        docRef = tagSnapshot.docs[0].ref;
+        const { usageCount } = tagSnapshot.docs[0].data();
+
+        // count 값 증가
+        transaction.update(docRef, { usageCount: usageCount + 1 });
+      } else {
+        // 문서가 없으면 새로 생성 (문서 ID 명시적으로 생성)
+        docRef = doc(colRef); // 새 문서 참조 생성 (랜덤 ID)
+        transaction.set(docRef, { name, usageCount: 1 });
+      }
+
+      return docRef;
+    });
+  }, []);
+
+  const removeTagByNameWithTransaction = useCallback(async (name: string) => {
+    const colRef = collection(db, "tags");
+    return await runTransaction(db, async (transaction) => {
+      let docRef;
+
+      // `name` 필드가 특정 값인 문서 검색
+      const tagQuery = query(colRef, where("name", "==", name));
+      const tagSnapshot = await getDocs(tagQuery);
+
+      if (!tagSnapshot.empty) {
+        // 문서가 존재하면 업데이트
+        docRef = tagSnapshot.docs[0].ref;
+        const { usageCount } = tagSnapshot.docs[0].data();
+
+        if (usageCount == 1) {
+          transaction.delete(docRef);
+        } else {
+          // count 값 감소
+          transaction.update(docRef, { usageCount: usageCount - 1 });
+        }
+      }
+
+      return docRef;
+    });
+  }, []);
+
+  const addTagToPostV2WithTransaction = useCallback(async (tagId: string, postId: string) => {
+    const colRef = collection(db, "tags-to-posts-v2");
+    return await runTransaction(db, async (transaction) => {
+      const matchQuery = query(colRef, where("tag", "==", tagId), where("post", "==", postId));
+      const matchSnapshot = await getDocs(matchQuery);
+      if (matchSnapshot.empty) {
+        // 문서가 없으면 새로 생성 (문서 ID 명시적으로 생성)
+        const docRef = doc(colRef); // 새 문서 참조 생성 (랜덤 ID)
+        transaction.set(docRef, { tag: tagId, post: postId });
+      }
+    });
+  }, []);
+
+  const removeTagToPostV2WithTransaction = useCallback(async (tagId: string, postId: string) => {
+    const colRef = collection(db, "tags-to-posts-v2");
+    return await runTransaction(db, async (transaction) => {
+      const matchQuery = query(colRef, where("tag", "==", tagId), where("post", "==", postId));
+      const matchSnapshot = await getDocs(matchQuery);
+      if (!matchSnapshot.empty) {
+        const docRef = matchSnapshot.docs[0].ref;
+        transaction.delete(docRef);
+      }
+    });
+  }, []);
+
+  const upsertDoc = useCallback(async (id: string, { author, title, content, category, tags, likes, createdAt, updatedAt }: { author: string | null | undefined, title: string, content: string, category: string, tags: string[], likes: number, createdAt: Date | null, updatedAt: Date | null }) => {
+    console.assert(author != null)
+
     if (id) {
       await updateDoc(
-        doc(db, "posts", id), {
+        doc(db, "posts-v2", id), {
         title,
         content,
         category,
-        tags: tagArray,
+        tags: tags,
         updatedAt: updatedAt,
-      })
-      docId = id;
+      });
     } else {
       const doc = await addDoc(
-        collection(db, "posts"), {
-        author: auth.currentUser?.email,
+        collection(db, "posts-v2"), {
+        author,
         title,
         content,
         category,
-        tags: tagArray,
-        likes: 0,
+        tags: tags,
+        likes: likes,
         createdAt,
         updatedAt: null,
       });
-      docId = doc.id;
+      id = doc.id;
     }
+
+    return id
+  }, []);
+
+  const onSubmit = useCallback(async (value: ISubmitFormHandlerValue) => {
+    if (!checkAuth()) return console.warn("require login");
+
+    const { title, category, createdAt, updatedAt, content, tags: tagString } = value;
+    const tagArray = tagString.split(",").filter(v => v).map(v => v.trim().replace(/ /g, '_'));
+    // console.log("title:", title, ", category:", category, ", createdAt:", createdAt, ", content:", content, ", tags:", tagArray);
+
+    const prevTags = new Set(post?.tags || []);
+    const curTags = new Set(tagArray || []);
+
+    const tags = [];
+    const newTags = [...curTags].filter(item => !prevTags.has(item)); // 추가된 요소
+    const removedTags = [...prevTags].filter(item => !curTags.has(item)); // 삭제된 요소
+    const unchangedItems = [...prevTags].filter(item => curTags.has(item)); // 유지되는 것 (prev tags와 current tags 모두에 있는 요소)
+
+    for (const tag of newTags) {
+      const docRef = await addTagByNameWithTransaction(tag);
+      await addTagToPostV2WithTransaction(docRef.id, id)
+      tags.push(docRef.id)
+    }
+
+    for (const tag of removedTags) {
+      const docRef = await removeTagByNameWithTransaction(tag);
+      docRef && await removeTagToPostV2WithTransaction(docRef.id, id)
+    }
+
+    if (unchangedItems.length > 0) {
+      const tagQuery = query(collection(db, "tags"), where("name", "in", unchangedItems));
+      const tagSnapshot = await getDocs(tagQuery);
+      tagSnapshot.forEach(v => tags.push(v.id))
+    }
+
+    const docId = await upsertDoc(id, {
+      author: auth.currentUser?.email,
+      title,
+      content,
+      category,
+      tags: tags,
+      likes: 0,
+      createdAt,
+      updatedAt: updatedAt,
+    });
     navigate(`/detail/${docId}`)
-  }, [id, checkAuth, navigate]);
+  }, [id, post, checkAuth, navigate]);
 
   const fetchPost = useCallback(async () => {
     try {
-      const docRef = doc(db, "posts", id)
+      const docRef = doc(db, "posts-v2", id)
       const docSnap = await getDoc(docRef)
       if (!docSnap.exists()) {
         return console.error("post is not exist");
       }
 
-      const { author, category, content, createdAt, likes, tags, title, updatedAt } = docSnap.data();
+      const { author, category, content, createdAt, likes, tags: tagIdList, title, updatedAt } = docSnap.data();
       if (auth.currentUser?.email != author) return console.error("블로그 포스트를 작성한 사용자와 현재 사용자가 일치하지 않습니다.")
+
+      const tags: string[] = []
+      const tagsQuery = query(collection(db, "tags"), where(documentId(), "in", tagIdList));
+      const tagsSnapshot = await getDocs(tagsQuery);
+      tagsSnapshot.forEach((doc) => {
+        const { name } = doc.data()
+        tags.push(name)
+      });
 
       setPost({
         id: docSnap.id,
