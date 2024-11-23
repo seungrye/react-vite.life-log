@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, documentId, getDoc, getDocs, query, where } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { auth, db } from "../firebase";
@@ -17,13 +17,23 @@ export default function PostDetail() {
 
   const fetchPost = useCallback(async () => {
     try {
-      const docRef = doc(db, "posts", id)
+      const docRef = doc(db, "posts-v2", id)
       const docSnap = await getDoc(docRef)
       if (!docSnap.exists()) {
         return console.error("post is not exist");
       }
 
-      const { author, category, content, createdAt, likes, tags, title, updatedAt } = docSnap.data();
+      const { author, category, content, createdAt, likes, tags: tagIdList, title, updatedAt } = docSnap.data();
+      console.log("post", author, category, createdAt, likes, tagIdList, title, updatedAt)
+
+      const tags: string[] = []
+      const tagsQuery = query(collection(db, "tags"), where(documentId(), "in", tagIdList));
+      const tagsSnapshot = await getDocs(tagsQuery);
+      tagsSnapshot.forEach((doc) => {
+        const { name } = doc.data()
+        tags.push(name)
+      });
+
       setPost({
         id: docSnap.id,
         author,

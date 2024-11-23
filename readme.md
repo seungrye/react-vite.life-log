@@ -1,3 +1,9 @@
+# TODO
+
+* post-v2 db 에서 데이터 읽어오도록 수정
+* tag 정보는 tags 에서 읽어도록 수정
+* 자료 작성/수정에 대해 posts-v2 를 사용하도록 수정
+
 # Directory Structure
 
 ```txt

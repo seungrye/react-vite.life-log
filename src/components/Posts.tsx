@@ -79,7 +79,7 @@ export default function Posts() {
     let unsubscribe: Unsubscribe | null = null;
     const fetchPosts = async () => {
       const postsQuery = query(
-        collection(db, "posts"),
+        collection(db, "posts-v2"),
         orderBy("createdAt", "desc"),
         limit(6)
       );
@@ -87,6 +87,7 @@ export default function Posts() {
       unsubscribe = onSnapshot(postsQuery, (snapshot) => {
         const posts = snapshot.docs.map(doc => {
           const { author, category, content, createdAt, likes, tags, title, updatedAt } = doc.data();
+          // console.log("post", author, category, createdAt, likes, tags, title, updatedAt)
 
           return {
             id: doc.id,
@@ -124,7 +125,7 @@ export default function Posts() {
           />
           :
           <SkeletonPost
-            key = {index}
+            key={index}
           />
       )}
     </div>
