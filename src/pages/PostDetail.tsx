@@ -19,7 +19,7 @@ export default function PostDetail() {
 
   const fetchPost = useCallback(async () => {
     try {
-      const docRef = doc(db, "posts-v2", id)
+      const docRef = doc(db, "posts-v4", id)
       const docSnap = await getDoc(docRef)
       if (!docSnap.exists()) {
         return console.error("post is not exist");
@@ -54,7 +54,7 @@ export default function PostDetail() {
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [id, authenticated]);
 
   useEffect(() => {
     fetchPost();
@@ -103,7 +103,7 @@ export default function PostDetail() {
           </div>
           <div>
             <hr className="pt-4" />
-            Tags with : {post?.tags.map((tag, index) => <Link key={index} to="#" className="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">{tag}</Link>)}
+            Tags with : {post?.tags.map((tag, index) => <Link key={index} to={`/search?tag=${tag}`} className="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">{tag}</Link>)}
           </div>
 
           {/*

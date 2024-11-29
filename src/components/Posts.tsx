@@ -1,7 +1,6 @@
 import { Unsubscribe } from "firebase/auth";
-import { query, collection, orderBy, limit, onSnapshot } from "firebase/firestore";
+import { onSnapshot, Query } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "../firebase";
 import { Link } from "react-router-dom";
 import { IPostProps, IPost } from "../types/Posts";
 
@@ -72,19 +71,18 @@ function Post(props: IPostProps) {
   </div>
 }
 
-export default function Posts() {
+interface PostsProps {
+  queryPosts: Query;
+}
+
+export default function Posts(props:PostsProps) {
+  const {queryPosts} = props;
   const [posts, setPosts] = useState<IPost[] | null[]>([null, null, null, null, null, null]);
 
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
-    const fetchPosts = async () => {
-      const postsQuery = query(
-        collection(db, "posts-v2"),
-        orderBy("createdAt", "desc"),
-        limit(6)
-      );
-
-      unsubscribe = onSnapshot(postsQuery, (snapshot) => {
+    const fetchPosts = async (query:Query) => {
+      unsubscribe = onSnapshot(query, (snapshot) => {
         const posts = snapshot.docs.map(doc => {
           const { author, category, content, createdAt, likes, tags, title, updatedAt } = doc.data();
           // console.log("post", author, category, createdAt, likes, tags, title, updatedAt)
@@ -105,10 +103,9 @@ export default function Posts() {
       });
     }
 
-    fetchPosts();
-
+    fetchPosts(queryPosts);
     return () => { unsubscribe?.(); }
-  }, []);
+  }, [queryPosts]);
 
   return <>
     <div className="grid gap-8 grid-cols-1 sm:max-w-sm sm:mx-auto md:max-w-full md:grid-cols-2 lg:max-w-full lg:grid-cols-3">

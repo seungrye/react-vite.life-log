@@ -86,7 +86,7 @@ export default function PostEditor() {
   }, []);
 
   const addTagToPostV2WithTransaction = useCallback(async (tagId: string, postId: string) => {
-    const colRef = collection(db, "tags-to-posts-v2");
+    const colRef = collection(db, "tags-to-posts-v4");
     return await runTransaction(db, async (transaction) => {
       const matchQuery = query(colRef, where("tag", "==", tagId), where("post", "==", postId));
       const matchSnapshot = await getDocs(matchQuery);
@@ -99,7 +99,7 @@ export default function PostEditor() {
   }, []);
 
   const removeTagToPostV2WithTransaction = useCallback(async (tagId: string, postId: string) => {
-    const colRef = collection(db, "tags-to-posts-v2");
+    const colRef = collection(db, "tags-to-posts-v4");
     return await runTransaction(db, async (transaction) => {
       const matchQuery = query(colRef, where("tag", "==", tagId), where("post", "==", postId));
       const matchSnapshot = await getDocs(matchQuery);
@@ -113,24 +113,28 @@ export default function PostEditor() {
   const upsertDoc = useCallback(async (id: string, { author, title, content, category, tags, likes, createdAt, updatedAt }: { author: string | null | undefined, title: string, content: string, category: string, tags: string[], likes: number, createdAt: Date | null, updatedAt: Date | null }) => {
     console.assert(author != null)
 
+    const keywords = title.split(" ").filter((v:string) => v.trim().length > 1);
+
     if (id) {
       await updateDoc(
-        doc(db, "posts-v2", id), {
+        doc(db, "posts-v4", id), {
         title,
         content,
         category,
         tags: tags,
+        keywords,
         updatedAt: updatedAt,
       });
     } else {
       const doc = await addDoc(
-        collection(db, "posts-v2"), {
+        collection(db, "posts-v4"), {
         author,
         title,
         content,
         category,
         tags: tags,
         likes: likes,
+        keywords,
         createdAt,
         updatedAt: null,
       });
@@ -189,7 +193,7 @@ export default function PostEditor() {
 
   const fetchPost = useCallback(async () => {
     try {
-      const docRef = doc(db, "posts-v2", id)
+      const docRef = doc(db, "posts-v4", id)
       const docSnap = await getDoc(docRef)
       if (!docSnap.exists()) {
         return console.error("post is not exist");
