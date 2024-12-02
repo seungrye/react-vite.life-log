@@ -86,7 +86,7 @@ export default function PostEditor() {
   }, []);
 
   const addTagToPostV2WithTransaction = useCallback(async (tagId: string, postId: string) => {
-    const colRef = collection(db, "tags-to-posts-v4");
+    const colRef = collection(db, "tags-to-posts-v2");
     return await runTransaction(db, async (transaction) => {
       const matchQuery = query(colRef, where("tag", "==", tagId), where("post", "==", postId));
       const matchSnapshot = await getDocs(matchQuery);
@@ -99,7 +99,7 @@ export default function PostEditor() {
   }, []);
 
   const removeTagToPostV2WithTransaction = useCallback(async (tagId: string, postId: string) => {
-    const colRef = collection(db, "tags-to-posts-v4");
+    const colRef = collection(db, "tags-to-posts-v2");
     return await runTransaction(db, async (transaction) => {
       const matchQuery = query(colRef, where("tag", "==", tagId), where("post", "==", postId));
       const matchSnapshot = await getDocs(matchQuery);
@@ -110,7 +110,8 @@ export default function PostEditor() {
     });
   }, []);
 
-  const upsertDoc = useCallback(async (id: string, { author, title, content, category, tags, likes, createdAt, updatedAt }: { author: string | null | undefined, title: string, content: string, category: string, tags: string[], likes: number, createdAt: Date | null, updatedAt: Date | null }) => {
+  const upsertDoc = useCallback(async (id: string, { author, title, content, category, tags, likes, coverImage, createdAt, updatedAt }: 
+    { author: string | null | undefined, title: string, content: string, category: string, tags: string[], likes: number, coverImage: string|undefined, createdAt: Date | null, updatedAt: Date | null }) => {
     console.assert(author != null)
 
     const keywords = title.split(" ").filter((v:string) => v.trim().length > 1);
@@ -122,6 +123,7 @@ export default function PostEditor() {
         content,
         category,
         tags: tags,
+        coverImage: coverImage || null,
         keywords,
         updatedAt: updatedAt,
       });
@@ -134,6 +136,7 @@ export default function PostEditor() {
         category,
         tags: tags,
         likes: likes,
+        coverImage: coverImage || null,
         keywords,
         createdAt,
         updatedAt: null,
@@ -142,6 +145,12 @@ export default function PostEditor() {
     }
 
     return id
+  }, []);
+
+  const extractCoverImage = useCallback((content:string) => {
+    // match 값의 스코프를 제한하기 위해 함수 내부에서 처리
+    const match = content.match(/!\[.*?\]\((.*?)\)/);
+    return match && match[1] ? match[1] : undefined; // 추출된 값 또는 undefined 반환
   }, []);
 
   const onSubmit = useCallback(async (value: ISubmitFormHandlerValue) => {
@@ -175,6 +184,8 @@ export default function PostEditor() {
       tagSnapshot.forEach(v => tags.push(v.id))
     }
 
+
+    const coverImage = extractCoverImage(content);
     const docId = await upsertDoc(id, {
       author: auth.currentUser?.email,
       title,
@@ -182,6 +193,7 @@ export default function PostEditor() {
       category,
       tags: tags,
       likes: 0,
+      coverImage,
       createdAt,
       updatedAt: updatedAt,
     });
@@ -189,7 +201,7 @@ export default function PostEditor() {
     for (const tagId of tags) { await addTagToPostV2WithTransaction(tagId, docId) }
 
     navigate(`/detail/${docId}`)
-  }, [id, post?.tags, checkAuth, upsertDoc, navigate, addTagByNameWithTransaction, removeTagByNameWithTransaction, removeTagToPostV2WithTransaction, addTagToPostV2WithTransaction]);
+  }, [checkAuth, post?.tags, extractCoverImage, upsertDoc, id, navigate, addTagByNameWithTransaction, removeTagByNameWithTransaction, removeTagToPostV2WithTransaction, addTagToPostV2WithTransaction]);
 
   const fetchPost = useCallback(async () => {
     try {
@@ -199,16 +211,18 @@ export default function PostEditor() {
         return console.error("post is not exist");
       }
 
-      const { author, category, content, createdAt, likes, tags: tagIdList, title, updatedAt } = docSnap.data();
+      const { author, category, content, createdAt, likes, tags: tagIdList, title, coverImage, updatedAt } = docSnap.data();
       if (auth.currentUser?.email != author) return console.error("블로그 포스트를 작성한 사용자와 현재 사용자가 일치하지 않습니다.")
 
       const tags: string[] = []
-      const tagsQuery = query(collection(db, "tags"), where(documentId(), "in", tagIdList));
-      const tagsSnapshot = await getDocs(tagsQuery);
-      tagsSnapshot.forEach((doc) => {
-        const { name } = doc.data()
-        tags.push(name)
-      });
+      if (tagIdList && tagIdList.length > 0) {
+        const tagsQuery = query(collection(db, "tags"), where(documentId(), "in", tagIdList));
+        const tagsSnapshot = await getDocs(tagsQuery);
+        tagsSnapshot.forEach((doc) => {
+          const { name } = doc.data()
+          tags.push(name)
+        });
+      }
 
       setPost({
         id: docSnap.id,
@@ -219,7 +233,8 @@ export default function PostEditor() {
         likes,
         tags,
         title,
-        updatedAt
+        updatedAt,
+        coverImage
       });
     } catch (e) {
       console.error(e)

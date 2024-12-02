@@ -2,7 +2,7 @@ import { Unsubscribe } from "firebase/auth";
 import { onSnapshot, Query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { IPostProps, IPost } from "../types/Posts";
+import { IPostProps, IPost, PostsProps } from "../types/Posts";
 
 function SkeletonPost() {
   return <div role="status" className="max-w-sm border border-gray-200 rounded shadow animate-pulse">
@@ -29,50 +29,39 @@ function SkeletonPost() {
 function Post(props: IPostProps) {
   const { id, category, title, date, banner, summary } = props;
 
-  return <div className="overflow-hidden transition-shadow duration-300 bg-white rounded shadow-sm">
-    <img
-      src={banner}
-      className="object-cover w-full h-64"
-      alt=""
-    />
-    <div className="p-5 border border-t-0">
-      <p className="mb-3 text-xs font-semibold tracking-wide uppercase">
-        <Link to={`/search/?category=${category}`}
-          className="transition-colors duration-200 text-blue-gray-900 hover:text-deep-purple-accent-700"
-          aria-label="Category"
-          title={category}
-        >
-          {category}
-        </Link>
-        <span className="text-gray-600">— {date}</span>
-      </p>
-      <Link to={`/detail/${id}`}
-        aria-label="Title"
-        title={title}
-        className="inline-block mb-3 text-2xl font-bold leading-5 transition-colors duration-200 hover:text-deep-purple-accent-700"
-      >
-        {title}
-      </Link>
-      <Link to={`/detail/${id}`}
-        aria-label="Summary"
-        title={title}
-      >
-        <p id="Summary" className="mb-2 text-gray-700 min-h-20 line-clamp-3">
-          {summary}
+  return <Link to={`/detail/${id}`}>
+    <div className="overflow-hidden transition-shadow duration-300 bg-white shadow-sm">
+      <img
+        src={banner}
+        className="object-cover w-full h-64 border border-b-0 rounded rounded-b-none"
+        alt=""
+      />
+      <div className="p-5 border border-t-0 rounded rounded-t-none">
+        <p className="mb-3 text-xs font-semibold tracking-wide uppercase">
+          <Link to={`/search/?category=${category}`}
+            className="transition-colors duration-200 text-blue-gray-900 hover:text-deep-purple-accent-700"
+            aria-label="Category"
+            title={category}
+          >
+            {category}
+          </Link>
+          <span className="text-gray-600">— {date}</span>
         </p>
-      </Link>
-      <Link to={`/detail/${id}`}
-        aria-label="Content"
-        className="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800"
-      >
-        Learn more
-      </Link>
+        <label
+          className="mb-3 text-2xl font-bold leading-7 transition-colors duration-200 hover:text-deep-purple-accent-700 line-clamp-1"
+        >
+          {title}
+        </label>
+          <p id="Summary" className="mb-2 text-gray-700 min-h-20 line-clamp-4 leading-5">
+            {summary}
+          </p>
+        <span className="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800"
+        >
+          Learn more
+        </span>
+      </div>
     </div>
-  </div>
-}
-
-interface PostsProps {
-  queryPosts: Query;
+  </Link>
 }
 
 export default function Posts(props:PostsProps) {
@@ -84,7 +73,7 @@ export default function Posts(props:PostsProps) {
     const fetchPosts = async (query:Query) => {
       unsubscribe = onSnapshot(query, (snapshot) => {
         const posts = snapshot.docs.map(doc => {
-          const { author, category, content, createdAt, likes, tags, title, updatedAt } = doc.data();
+          const { author, category, content, createdAt, likes, coverImage, tags, title, updatedAt } = doc.data();
           // console.log("post", author, category, createdAt, likes, tags, title, updatedAt)
 
           return {
@@ -93,6 +82,7 @@ export default function Posts(props:PostsProps) {
             category,
             content,
             createdAt,
+            coverImage,
             likes,
             tags,
             title,
@@ -114,11 +104,11 @@ export default function Posts(props:PostsProps) {
           <Post
             key={index}
             id={post.id}
-            banner="https://images.pexels.com/photos/2408666/pexels-photo-2408666.jpeg"
+            banner={post.coverImage || "/no-image-placeholder.png" }
             category={post.category}
             date={post.createdAt.toDate().toLocaleString(undefined, { year: "numeric", month: "short", day: "numeric" })}
             title={post.title}
-            summary={post.content.slice(0, 100)}
+            summary={post.content.slice(0, 300)}
           />
           :
           <SkeletonPost

@@ -25,16 +25,18 @@ export default function PostDetail() {
         return console.error("post is not exist");
       }
 
-      const { author, category, content, createdAt, likes, tags: tagIdList, title, updatedAt } = docSnap.data();
+      const { author, category, content, createdAt, likes, tags: tagIdList, coverImage, title, updatedAt } = docSnap.data();
       // console.log("post", author, category, createdAt, likes, tagIdList, title, updatedAt)
 
       const tags: string[] = []
-      const tagsQuery = query(collection(db, "tags"), where(documentId(), "in", tagIdList));
-      const tagsSnapshot = await getDocs(tagsQuery);
-      tagsSnapshot.forEach((doc) => {
-        const { name } = doc.data()
-        tags.push(name)
-      });
+      if (tagIdList && tagIdList.length > 0) {
+        const tagsQuery = query(collection(db, "tags"), where(documentId(), "in", tagIdList));
+        const tagsSnapshot = await getDocs(tagsQuery);
+        tagsSnapshot.forEach((doc) => {
+          const { name } = doc.data()
+          tags.push(name)
+        });
+      }
 
       setPost({
         id: docSnap.id,
@@ -45,7 +47,8 @@ export default function PostDetail() {
         likes,
         tags,
         title,
-        updatedAt
+        updatedAt,
+        coverImage
       });
 
       setEditable(authenticated && auth.currentUser?.email === author)

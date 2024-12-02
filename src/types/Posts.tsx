@@ -1,4 +1,4 @@
-import { Timestamp } from "firebase/firestore";
+import { Query, Timestamp } from "firebase/firestore";
 
 export interface IPostProps {
   id: string,
@@ -18,5 +18,10 @@ export interface IPost {
   likes: number;
   tags: string[];
   title: string;
+  coverImage: string|null;
   updatedAt?: Timestamp | null;
+}
+
+export interface PostsProps {
+  queryPosts: Query;
 }
