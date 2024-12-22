@@ -27,17 +27,15 @@ export default function Footer() {
               <rect x="14" y="11" width="7" height="12" />
             </svg>
             <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
-              Company
+              Rabbit Hole
             </span>
           </Link>
           <div className="mt-6 lg:max-w-sm">
             <p className="text-sm text-gray-800">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam.
+              If you don't know where you want to go, then it doesn't matter which path you take.
             </p>
             <p className="mt-4 text-sm text-gray-800">
-              Eaque ipsa quae ab illo inventore veritatis et quasi architecto
-              beatae vitae dicta sunt explicabo.
+              This is my dream, I'll decide where it goes from here.
             </p>
           </div>
         </div>
@@ -48,23 +46,23 @@ export default function Footer() {
           <div className="flex">
             <p className="mr-1 text-gray-800">Phone:</p>
             <a
-              href="tel:850-123-5021"
-              aria-label="Our phone"
-              title="Our phone"
+              href="tel:010-????-0831"
+              aria-label="My phone"
+              title="My phone"
               className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800"
             >
-              850-123-5021
+              010-????-0831
             </a>
           </div>
           <div className="flex">
             <p className="mr-1 text-gray-800">Email:</p>
             <a
-              href="mailto:info@lorem.mail"
-              aria-label="Our email"
-              title="Our email"
+              href="mailto:seungrye@gmail.com"
+              aria-label="My email"
+              title="My email"
               className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800"
             >
-              info@lorem.mail
+              seungrye@gmail.com
             </a>
           </div>
           <div className="flex">
@@ -73,11 +71,11 @@ export default function Footer() {
               href="https://www.google.com/maps"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Our address"
-              title="Our address"
+              aria-label="My address"
+              title="My address"
               className="transition-colors duration-300 text-deep-purple-accent-400 hover:text-deep-purple-800"
             >
-              312 Lovely Street, NY
+              서울특별시 금천구 가산로3길 134-10
             </a>
           </div>
         </div>
@@ -113,8 +111,7 @@ export default function Footer() {
             </a>
           </div>
           <p className="mt-4 text-sm text-gray-500">
-            Bacon ipsum dolor amet short ribs pig sausage prosciutto chicken
-            spare ribs salami.
+            I can't go back to yesterday because I was a different person then.
           </p>
         </div>
       </div>
