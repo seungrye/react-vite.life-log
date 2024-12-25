@@ -2,7 +2,7 @@ import { Unsubscribe } from "firebase/auth";
 import { onSnapshot, Query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { IPostProps, IPost, PostsProps } from "../types/Posts";
+import { IPost, IPostProps, PostsProps } from "../types/Posts";
 
 function SkeletonPost() {
   return <div role="status" className="max-w-sm border border-gray-200 rounded shadow animate-pulse">
@@ -30,7 +30,7 @@ function Post(props: IPostProps) {
   const { id, category, title, date, banner, summary } = props;
 
   return <Link to={`/detail/${id}`}>
-    <div className="overflow-hidden transition-shadow duration-300 bg-white shadow-sm">
+    <div className="overflow-hidden transition duration-700 bg-white hover:shadow-md">
       <img
         src={banner}
         className="object-cover w-full h-64 border border-b-0 rounded rounded-b-none"
@@ -38,24 +38,23 @@ function Post(props: IPostProps) {
       />
       <div className="p-5 border border-t-0 rounded rounded-t-none">
         <p className="mb-3 text-xs font-semibold tracking-wide uppercase">
-          <Link to={`/search/?category=${category}`}
-            className="transition-colors duration-200 text-blue-gray-900 hover:text-deep-purple-accent-700"
+          <span className="text-blue-gray-900"
             aria-label="Category"
             title={category}
           >
             {category}
-          </Link>
+          </span>
           <span className="text-gray-600">— {date}</span>
         </p>
         <label
-          className="mb-3 text-2xl font-bold leading-7 transition-colors duration-200 hover:text-deep-purple-accent-700 line-clamp-1"
+          className="mb-3 text-2xl font-bold leading-7 line-clamp-1"
         >
           {title}
         </label>
-          <p id="Summary" className="mb-2 text-gray-700 min-h-20 line-clamp-4 leading-5">
-            {summary}
-          </p>
-        <span className="inline-flex items-center font-semibold transition-colors duration-200 text-deep-purple-accent-400 hover:text-deep-purple-800"
+        <p id="Summary" className="mb-2 text-gray-700 min-h-20 line-clamp-4 leading-5">
+          {summary}
+        </p>
+        <span className="inline-flex items-center font-semibold"
         >
           Learn more
         </span>
@@ -64,13 +63,13 @@ function Post(props: IPostProps) {
   </Link>
 }
 
-export default function Posts(props:PostsProps) {
-  const {queryPosts} = props;
+export default function Posts(props: PostsProps) {
+  const { queryPosts } = props;
   const [posts, setPosts] = useState<IPost[] | null[]>([null, null, null, null, null, null]);
 
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
-    const fetchPosts = async (query:Query) => {
+    const fetchPosts = async (query: Query) => {
       unsubscribe = onSnapshot(query, (snapshot) => {
         const posts = snapshot.docs.map(doc => {
           const { author, category, content, createdAt, likes, coverImage, tags, title, updatedAt } = doc.data();
@@ -104,7 +103,7 @@ export default function Posts(props:PostsProps) {
           <Post
             key={index}
             id={post.id}
-            banner={post.coverImage || "/no-image-placeholder.png" }
+            banner={post.coverImage || "/no-image-placeholder.png"}
             category={post.category}
             date={post.createdAt.toDate().toLocaleString(undefined, { year: "numeric", month: "short", day: "numeric" })}
             title={post.title}
