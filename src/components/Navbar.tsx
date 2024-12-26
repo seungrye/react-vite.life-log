@@ -6,7 +6,7 @@ import { useAuth } from '../hook/useAuth';
 
 const navigation = [
   { name: 'Dashboard', href: '/', current: false },
-  { name: 'Category', href: '/category', current: false },
+  //  { name: 'Category', href: '/category', current: false },
   { name: 'Tag', href: '/tag', current: false },
   { name: 'Search', href: '/search', current: false },
   { name: 'Archived', href: '/archived', current: false },
