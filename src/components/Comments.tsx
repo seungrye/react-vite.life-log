@@ -83,7 +83,7 @@ function CommentForm(props: { post: string }) {
   }, [])
 
   const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
-    if (loading) return console.log("posting...");
+    if (loading) return console.log("commenting...");
     event.preventDefault();
 
     try {
@@ -148,8 +148,6 @@ function CommentForm(props: { post: string }) {
 
 function Comment(props: ICommentValue) {
   const { author, content, commentedAt } = props;
-
-  console.log("content", content)
 
   return <article className="p-6 mb-6 text-base bg-white rounded-lg">
     <footer className="flex justify-between items-center mb-2">
@@ -218,7 +216,6 @@ export default function Comments(props: { post: string }) {
             commentedAt: commentedAt.toDate().toLocaleString(undefined, { year: "numeric", month: "short", day: "numeric" })
           };
         });
-        console.log(comments);
         setComments(comments);
       });
     }
