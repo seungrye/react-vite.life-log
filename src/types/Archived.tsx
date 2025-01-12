@@ -1,5 +1,6 @@
 
 export interface IArchiveItemProps {
+  id: string,
   date: string,
   title: string,
   description: string,

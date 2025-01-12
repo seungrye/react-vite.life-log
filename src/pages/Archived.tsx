@@ -4,31 +4,34 @@ import { collection, onSnapshot, orderBy, Query, query, Unsubscribe } from "fire
 import { useCallback, useEffect, useState } from "react"
 import { db } from "../firebase"
 import { IArchiveItem, IArchiveItemProps } from "../types/Archived"
+import { Link } from "react-router-dom"
 
 function ArchiveItem(props: IArchiveItemProps) {
-  const { date, title, description, imageUrls } = props
+  const { id, date, title, description, imageUrls } = props
 
   return <li className="mb-10 ms-4">
-    <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white"></div>
-    <time className="mb-1 text-sm font-normal leading-none text-gray-400">{date}</time>
-    <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-    <p className="text-base font-normal text-gray-500">{description}</p>
+    <Link to={`/detail/${id}`}>
+      <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white"></div>
+      <time className="mb-1 text-sm font-normal leading-none text-gray-400">{date}</time>
+      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+      <p className="text-base font-normal text-gray-500">{description}</p>
 
-    {imageUrls?.length &&
-      <div className="flex">
-        {imageUrls?.map((imageUrl) =>
-          <Popover key={imageUrl} className="relative">
-            <PopoverButton className="mt-2 hover:text-gray-600">
-              <PhotoIcon className="size-6" />
-            </PopoverButton>
-            <PopoverPanel anchor="top" className="flex flex-col bg-black rounded border">
-              <img src={imageUrl}
-                className="max-w-64 h-auto" />
-            </PopoverPanel>
-          </Popover>
-        )}
-      </div>
-    }
+      {imageUrls?.length &&
+        <div className="flex">
+          {imageUrls?.map((imageUrl) =>
+            <Popover key={imageUrl} className="relative">
+              <PopoverButton className="mt-2 hover:text-gray-600">
+                <PhotoIcon className="size-6" />
+              </PopoverButton>
+              <PopoverPanel anchor="top" className="flex flex-col bg-black rounded border">
+                <img src={imageUrl}
+                  className="max-w-64 h-auto" />
+              </PopoverPanel>
+            </Popover>
+          )}
+        </div>
+      }
+    </Link>
   </li>
 }
 
@@ -84,6 +87,7 @@ export default function Archived() {
   return <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl lg:px-8 lg:py-10">
     <ol className="relative border-s border-gray-200">
       {archives?.map((archive) => <ArchiveItem
+        id={archive?.id}
         date={archive?.createdAt}
         title={archive?.title}
         description={archive?.description}
