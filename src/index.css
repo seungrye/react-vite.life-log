@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-#markview img,
-#markview video {
+.markview img,
+.markview video {
   max-width:640px;
   height:auto
 }
